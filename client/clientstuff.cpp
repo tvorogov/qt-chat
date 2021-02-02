@@ -11,21 +11,9 @@ ClientStuff::ClientStuff(QObject *parent) : QObject(parent)
 {
      tcpSocket = new QTcpSocket();
 
-
-     qDebug()<<"q";
-
 }
 
-void ClientStuff::setAccountUserName(const QString name, const QString pass)
-{
-    qDebug()<<name<<pass;
 
-
-    username = name;
-    password = pass;
-
-
-}
 
 void ClientStuff::connectToHost(QString host, int port)
 {
@@ -47,19 +35,12 @@ void ClientStuff::sendSomething(QString fileType, QString fileName, const QByteA
 
     QDataStream socketStream(tcpSocket);
 
-
-
-
-
-
-    username = QTime::currentTime().toString("ss");
-
-
+    QString username = QTime::currentTime().toString("hh:mm:ss");
 
         QByteArray header;
         header.prepend(QString("username:%1,fileType:%2,fileName:%3;").arg("username").arg(fileType).arg(fileName).toUtf8());
         header.resize(128);
-        qDebug()<<header;
+        qDebug()<<"header"<<header;
 
         QByteArray dataByteArray;
 
@@ -70,7 +51,7 @@ void ClientStuff::sendSomething(QString fileType, QString fileName, const QByteA
         socketStream << dataByteArray;
 
 
-
+//        emit hasReadSome(username,data);
 
 }
 
@@ -90,6 +71,8 @@ void ClientStuff::readyRead()
         socketStream.startTransaction();
 
     socketStream>>buffer;
+
+    qDebug()<<buffer;
 
 
         if (!socketStream.commitTransaction())
@@ -116,8 +99,22 @@ void ClientStuff::readyRead()
 
 
     } else if (fileType == "message") {
+       emit hasReadSome(username,buffer.mid(128));
+    } else if (fileType == "key") {
 
-       emit hasReadSome(username+" : "+buffer.mid(128));
+        QString recivedData = buffer.mid(128);
+        QString base = recivedData.split(":")[0];
+        QString modulus = recivedData.split(":")[1];
+        QString key = recivedData.split(":")[2];
+
+        qDebug()<<"recivedData"<<recivedData<<"key"<<key;
+
+
+        emit setEncryptionEnabled(true);
+
+        emit reciveEncryptKey(base.toInt(),modulus.toInt(),key.toInt());
+
+
     }
 
 

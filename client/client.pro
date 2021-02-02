@@ -7,7 +7,9 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        aes/qaesencryption.cpp \
         clientbackend.cpp \
+        clientencrypt.cpp \
         clientstuff.cpp \
         main.cpp
 
@@ -25,5 +27,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    aes/aesni/aesni-enc-cbc.h \
+    aes/aesni/aesni-enc-ecb.h \
+    aes/aesni/aesni-key-exp.h \
+    aes/qaesencryption.h \
     clientbackend.h \
+    clientencrypt.h \
     clientstuff.h

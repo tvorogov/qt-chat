@@ -45,12 +45,11 @@ void ServerStuff::readClient()
     socketStream.startTransaction();
     socketStream >>buffer;
 
+    qDebug()<<"buffer"<<buffer;
 
     QString header = buffer.mid(0,128);
     QString username = header.split(",")[0].split(":")[1];
     QString fileType = header.split(",")[1].split(":")[1];
-
-
 
 
     if (fileType == "file") {
@@ -67,18 +66,16 @@ void ServerStuff::readClient()
         }
 
 
-
     } else if (fileType == "message") {
 
         emit gotNewMesssage(buffer.mid(128));
+
     }
 
 
 
 
     sendToClients(clientSocket,buffer);
-
-
 
 
 
@@ -92,8 +89,8 @@ qint64 ServerStuff::sendToClients(QTcpSocket *socket, const QByteArray buffer)
 
     for (int i=0; i<clientsList.count(); i++ ) {
 
-//        if (clientsList.at(i) == socket)
-//            continue;
+        if (clientsList.at(i) == socket)
+            continue;
 
         QDataStream socketStream(clientsList.at(i));
 

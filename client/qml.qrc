@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>LoginWindow.qml</file>
-        <file>MainChatWindow.qml</file>
     </qresource>
 </RCC>

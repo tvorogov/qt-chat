@@ -15,7 +15,7 @@ public:
     QTcpSocket *tcpSocket;
 
 public slots:
-    void setAccountUserName(const QString name, const QString pass);
+
     void connectToHost(QString host, int port);
     void closeConnection();
     void sendSomething(QString fileType, QString fileName, const QByteArray data);
@@ -26,12 +26,12 @@ private slots:
 
 private:
 
-    QString username;
-    QString password;
+
 
 signals:
-    void hasReadSome(QString msg);
-
+    void hasReadSome(QString name, QByteArray textByteArray);
+    void reciveEncryptKey(int,int,int);
+    void setEncryptionEnabled(bool);
 };
 
 #endif // CLIENTSTUFF_H

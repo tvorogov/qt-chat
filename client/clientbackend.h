@@ -5,37 +5,45 @@
 
 
 class ClientStuff;
+class ClientEncrypt;
 
 class ClientBackend : public QObject
 {
     Q_OBJECT
+
 public:
     explicit ClientBackend(QObject *parent = nullptr);
 
+
 signals:
         void someMessage(QString msg);
-        void logined(const QString name,const QString pass);
-
 
 public slots:
-    void connectClicked(QString address, QString port);
-    void disconnectClicked();
-    void sendMessageClicked(QString msg);
-    void sendFileClicked(QString filePath);
-    void receivedSomething(QString msg);
 
+        void connectClicked(QString address, QString port);
+        void disconnectClicked();
+        void sendMessageClicked(QString msg);
+        void sendFileClicked(QString filePath);
+        void receivedSomething(QString name,QByteArray textByteArray);
+        void startEncrypt(bool);
 
-
+        void setEncryptionEnabled(bool someBool)
+        {
+        isEncryptionEnabled = someBool;
+        };
 
 private slots:
+
+        void sendEncryptKey(int,int,int);
 
 
 private:
 
-    ClientStuff * client;
+        ClientStuff *client;
+        ClientEncrypt *encryptedClient;
 
-    QString username;
-    QString password;
+
+        bool isEncryptionEnabled ;
 
 };
 
