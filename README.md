@@ -1,7 +1,7 @@
 qt chat client-server application using QTCPSocket/QTCPServer
 
-Features
+This project was written for educational purposes. In particular, to integrating between QML and C++ 
 
-encryption between 2 users (https://github.com/bricke/Qt-AES)
 
-file transferring possibility
+for encryption used (https://github.com/bricke/Qt-AES)
+
