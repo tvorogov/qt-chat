@@ -20,6 +20,9 @@ Window {
         onSomeMessage: {
             clietTextArea.append(msg)
         }
+        onClientConnected: {
+            clietTextArea.append("successful connected")
+        }
 
 
     }
@@ -59,7 +62,7 @@ Window {
                     rightPadding: 10
                     width: parent.width
 
-                    text: "192.168.60.9"
+                    text: backend.defServer()
 
 
 
@@ -176,9 +179,35 @@ Window {
 
             Rectangle {
 
-                Layout.fillWidth: true
+
+                width: 100
                 height: btn_send_message.height
                 border.color: "red"
+                border.width: 1
+
+
+                TextArea {
+                    id: username
+
+                    placeholderText : "username"
+
+                    anchors.verticalCenter: parent.verticalCenter
+                    leftPadding: 10
+                    rightPadding: 10
+                    width: parent.width
+
+                    onTextChanged: {
+                        if (username.length > 10)
+                            username.remove(10,11)
+                    }
+
+                }
+            }
+            Rectangle {
+
+                Layout.fillWidth: true
+                height: btn_send_message.height
+                border.color: "blue"
                 border.width: 1
 
 
@@ -197,8 +226,8 @@ Window {
                 text: "send"
 
                 onClicked: {
-                    backend.sendMessageClicked(msgTextInput.text)
-                    clietTextArea.append("username:"+msgTextInput.text)
+                    backend.sendMessageClicked(username.text,msgTextInput.text)
+                    clietTextArea.append(username.text+" : "+msgTextInput.text)
                 }
             }
             Button {

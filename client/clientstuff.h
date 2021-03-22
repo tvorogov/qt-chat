@@ -13,6 +13,7 @@ public:
     explicit ClientStuff(QObject *parent = nullptr);
 
     QTcpSocket *tcpSocket;
+    QString username;
 
 public slots:
 

@@ -8,6 +8,7 @@
 #include <QTcpSocket>
 #include <QFile>
 #include <QFileDialog>
+#include <QNetworkInterface>
 
 
 ClientBackend::ClientBackend(QObject *parent) : QObject(parent)
@@ -18,6 +19,8 @@ ClientBackend::ClientBackend(QObject *parent) : QObject(parent)
 //    isEncryptionEnabled = true;
 
     client = new ClientStuff();
+
+    connect(client->tcpSocket,&QTcpSocket::connected,this,&ClientBackend::clientConnected);
 
 
     connect(client, SIGNAL(hasReadSome(QString,QByteArray)), this, SLOT(receivedSomething(QString,QByteArray)));
@@ -34,9 +37,25 @@ ClientBackend::ClientBackend(QObject *parent) : QObject(parent)
 
 }
 
+QString ClientBackend::defServer()
+{
+    QList<QHostAddress> myIpAddresses = QNetworkInterface::allAddresses();
 
-void ClientBackend::sendMessageClicked(QString msg)
-{    
+    for ( int i = 0; i < myIpAddresses.size(); i++ ) {
+        if ( myIpAddresses.at( i ).protocol() == QAbstractSocket::IPv4Protocol )
+        {
+
+            if (myIpAddresses.at( i ).toString() != "127.0.0.1")
+                return myIpAddresses.at(i).toString();
+        }
+    }
+
+    return "127.0.0.1" ;
+}
+
+void ClientBackend::sendMessageClicked(QString userename,QString msg)
+{
+    client->username = userename;
 
     QByteArray byteArray;
     byteArray = msg.toUtf8();

@@ -84,7 +84,7 @@ void ServerStuff::readClient()
 }
 
 
-qint64 ServerStuff::sendToClients(QTcpSocket *socket, const QByteArray buffer)
+void ServerStuff::sendToClients(QTcpSocket *socket, const QByteArray buffer)
 {
 
     for (int i=0; i<clientsList.count(); i++ ) {

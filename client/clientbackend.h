@@ -16,17 +16,19 @@ public:
 
 
 signals:
+        void clientConnected();
         void someMessage(QString msg);
 
 public slots:
 
         void connectClicked(QString address, QString port);
         void disconnectClicked();
-        void sendMessageClicked(QString msg);
+        void sendMessageClicked(QString username,QString msg);
         void sendFileClicked(QString filePath);
         void receivedSomething(QString name,QByteArray textByteArray);
         void startEncrypt(bool);
 
+        QString defServer();
         void setEncryptionEnabled(bool someBool)
         {
         isEncryptionEnabled = someBool;

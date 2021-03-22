@@ -35,10 +35,10 @@ void ClientStuff::sendSomething(QString fileType, QString fileName, const QByteA
 
     QDataStream socketStream(tcpSocket);
 
-    QString username = QTime::currentTime().toString("hh:mm:ss");
+
 
         QByteArray header;
-        header.prepend(QString("username:%1,fileType:%2,fileName:%3;").arg("username").arg(fileType).arg(fileName).toUtf8());
+        header.prepend(QString("username:%1,fileType:%2,fileName:%3;").arg(username).arg(fileType).arg(fileName).toUtf8());
         header.resize(128);
         qDebug()<<"header"<<header;
 

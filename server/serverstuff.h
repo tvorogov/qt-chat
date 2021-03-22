@@ -21,7 +21,7 @@ public:
 
 
 public slots:
-    qint64 sendToClients(QTcpSocket *socket, const QByteArray buffer);
+    void sendToClients(QTcpSocket *socket, const QByteArray buffer);
 
     virtual void newConnection();
 
